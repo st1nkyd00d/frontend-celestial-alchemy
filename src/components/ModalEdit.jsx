@@ -1,9 +1,8 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function ModalEdit({ pocion, visible, onClose }) {
     const [formData, setFormData] = useState({
-        id: pocion.id,
+        id: "",
         nombre: "",
         categoria: "",
         precio: "",
@@ -14,12 +13,40 @@ function ModalEdit({ pocion, visible, onClose }) {
         ingrediente4: "",
         descripcion: "",
     });
+
+    useEffect(() => {
+        setFormData({
+            id: pocion.id,
+            nombre: pocion.nombre,
+            categoria: pocion.categoria,
+            precio: pocion.precio,
+            unidadesDisponibles: pocion.unidadesDisponibles,
+            ingrediente1: pocion.ingrediente1,
+            ingrediente2: pocion.ingrediente2,
+            ingrediente3: pocion.ingrediente3,
+            ingrediente4: pocion.ingrediente4,
+            descripcion: pocion.descripcion,
+        });
+    }, [pocion]);
+
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
+            if (formData.ingrediente1 === "") {
+                formData.ingrediente1 = null;
+            }
+            if (formData.ingrediente2 === "") {
+                formData.ingrediente2 = null;
+            }
+            if (formData.ingrediente3 === "") {
+                formData.ingrediente3 = null;
+            }
+            if (formData.ingrediente4 === "") {
+                formData.ingrediente4 = null;
+            }
             const response = await fetch("http://localhost:3000/api/editarPocion", {
                 method: "PUT",
                 headers: {
@@ -33,7 +60,7 @@ function ModalEdit({ pocion, visible, onClose }) {
             }
 
             const data = await response.json();
-            console.log(data); 
+            console.log(data);
         } catch (error) {
             console.error(error);
         }
@@ -62,60 +89,60 @@ function ModalEdit({ pocion, visible, onClose }) {
                         </label>
                         <select className="m-2 " type="" name="ingrediente1" id="ingrediente1" value={formData.ingrediente1} onChange={handleChange}>
                             <option value="">Sin ingrediente</option>
-                            <option value="1">Escama de dragón ígneo</option>
-                            <option value="2">Lágrima de fénix</option>
-                            <option value="3">Raíz de árbol centenario</option>
-                            <option value="4">Polen de luna plateada</option>
-                            <option value="5">Esencia de estrella fugaz</option>
-                            <option value="6">Flor de fuego eterno</option>
-                            <option value="7">Pluma de grifo dorado</option>
-                            <option value="8">Hongo relámpago</option>
-                            <option value="9">Sangre de basilisco</option>
+                            <option value="Escama de dragón ígneo">Escama de dragón ígneo</option>
+                            <option value="Lágrima de fénix">Lágrima de fénix</option>
+                            <option value="Raíz de árbol centenario">Raíz de árbol centenario</option>
+                            <option value="Polen de luna plateada">Polen de luna plateada</option>
+                            <option value="Esencia de estrella fugaz">Esencia de estrella fugaz</option>
+                            <option value="Flor de fuego eterno">Flor de fuego eterno</option>
+                            <option value="Pluma de grifo dorado">Pluma de grifo dorado</option>
+                            <option value="Hongo relámpago">Hongo relámpago</option>
+                            <option value="Sangre de basilisco">Sangre de basilisco</option>
                         </select>
                         <label className=" text-white ml-2" htmlFor="ingrediente2">
                             Ingrediente 2
                         </label>
                         <select className="m-2" type="" name="ingrediente2" id="ingrediente2" value={formData.ingrediente2} onChange={handleChange}>
                             <option value="">Sin ingrediente</option>
-                            <option value="1">Escama de dragón ígneo</option>
-                            <option value="2">Lágrima de fénix</option>
-                            <option value="3">Raíz de árbol centenario</option>
-                            <option value="4">Polen de luna plateada</option>
-                            <option value="5">Esencia de estrella fugaz</option>
-                            <option value="6">Flor de fuego eterno</option>
-                            <option value="7">Pluma de grifo dorado</option>
-                            <option value="8">Hongo relámpago</option>
-                            <option value="9">Sangre de basilisco</option>
+                            <option value="Escama de dragón ígneo">Escama de dragón ígneo</option>
+                            <option value="Lágrima de fénix">Lágrima de fénix</option>
+                            <option value="Raíz de árbol centenario">Raíz de árbol centenario</option>
+                            <option value="Polen de luna plateada">Polen de luna plateada</option>
+                            <option value="Esencia de estrella fugaz">Esencia de estrella fugaz</option>
+                            <option value="Flor de fuego eterno">Flor de fuego eterno</option>
+                            <option value="Pluma de grifo dorado">Pluma de grifo dorado</option>
+                            <option value="Hongo relámpago">Hongo relámpago</option>
+                            <option value="Sangre de basilisco">Sangre de basilisco</option>
                         </select>
                         <label className=" text-white ml-2" htmlFor="ingrediente3">
                             Ingrediente 3
                         </label>
                         <select className="m-2" type="" name="ingrediente3" id="ingrediente3" value={formData.ingrediente3} onChange={handleChange}>
                             <option value="">Sin ingrediente</option>
-                            <option value="1">Escama de dragón ígneo</option>
-                            <option value="2">Lágrima de fénix</option>
-                            <option value="3">Raíz de árbol centenario</option>
-                            <option value="4">Polen de luna plateada</option>
-                            <option value="5">Esencia de estrella fugaz</option>
-                            <option value="6">Flor de fuego eterno</option>
-                            <option value="7">Pluma de grifo dorado</option>
-                            <option value="8">Hongo relámpago</option>
-                            <option value="9">Sangre de basilisco</option>
+                            <option value="Escama de dragón ígneo">Escama de dragón ígneo</option>
+                            <option value="Lágrima de fénix">Lágrima de fénix</option>
+                            <option value="Raíz de árbol centenario">Raíz de árbol centenario</option>
+                            <option value="Polen de luna plateada">Polen de luna plateada</option>
+                            <option value="Esencia de estrella fugaz">Esencia de estrella fugaz</option>
+                            <option value="Flor de fuego eterno">Flor de fuego eterno</option>
+                            <option value="Pluma de grifo dorado">Pluma de grifo dorado</option>
+                            <option value="Hongo relámpago">Hongo relámpago</option>
+                            <option value="Sangre de basilisco">Sangre de basilisco</option>
                         </select>
                         <label className=" text-white ml-2" htmlFor="ingrediente4">
                             Ingrediente 4
                         </label>
                         <select className="m-2" type="" name="ingrediente4" id="ingrediente4" value={formData.ingrediente4} onChange={handleChange}>
                             <option value="">Sin ingrediente</option>
-                            <option value="1">Escama de dragón ígneo</option>
-                            <option value="2">Lágrima de fénix</option>
-                            <option value="3">Raíz de árbol centenario</option>
-                            <option value="4">Polen de luna plateada</option>
-                            <option value="5">Esencia de estrella fugaz</option>
-                            <option value="6">Flor de fuego eterno</option>
-                            <option value="7">Pluma de grifo dorado</option>
-                            <option value="8">Hongo relámpago</option>
-                            <option value="9">Sangre de basilisco</option>
+                            <option value="Escama de dragón ígneo">Escama de dragón ígneo</option>
+                            <option value="Lágrima de fénix">Lágrima de fénix</option>
+                            <option value="Raíz de árbol centenario">Raíz de árbol centenario</option>
+                            <option value="Polen de luna plateada">Polen de luna plateada</option>
+                            <option value="Esencia de estrella fugaz">Esencia de estrella fugaz</option>
+                            <option value="Flor de fuego eterno">Flor de fuego eterno</option>
+                            <option value="Pluma de grifo dorado">Pluma de grifo dorado</option>
+                            <option value="Hongo relámpago">Hongo relámpago</option>
+                            <option value="Sangre de basilisco">Sangre de basilisco</option>
                         </select>
                         <label className=" text-white ml-2" htmlFor="categoria">
                             Categoría de la poción

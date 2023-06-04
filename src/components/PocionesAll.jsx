@@ -1,9 +1,9 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ModalEdit from "./ModalEdit";
 import ModalDelete from "./ModalDelete";
 import ModalImagen from "./ModalImagen";
 import ModalDetalles from "./ModalDetalles";
+import ModalCreate from "./ModalCreate";
 import Pocion1 from "../assets/Pocion1.jpeg";
 import Pocion2 from "../assets/Pocion2.jpeg";
 import Pocion3 from "../assets/Pocion3.jpeg";
@@ -16,18 +16,21 @@ import Pocion9 from "../assets/Pocion9.jpeg";
 import Pocion10 from "../assets/Pocion10.jpeg";
 
 function PocionAll() {
+    const [showModalCreate, setShowModalCreate] = useState(false);
     const [showModalEdit, setShowModalEdit] = useState(false);
     const [showModalDelete, setShowModalDelete] = useState(false);
     const [showModalImagen, setShowModalImagen] = useState(false);
     const [showModalDetalles, setShowModalDetalles] = useState(false);
     const [selectedPocion, setSelectedPocion] = useState(null);
     const [pociones, setPociones] = useState([]);
+    const [searchValue, setSearchValue] = useState("");
 
     const handleOnClose = () => {
         setShowModalEdit(false);
         setShowModalDelete(false);
         setShowModalImagen(false);
         setShowModalDetalles(false);
+        setShowModalCreate(false);
     };
 
     const handleCambiarImagen = (pocionId) => {
@@ -36,6 +39,7 @@ function PocionAll() {
     };
 
     const handleOpenModalDetalles = (pocion) => {
+        console.log(pocion);
         setSelectedPocion(pocion);
         setShowModalDetalles(true);
     };
@@ -44,6 +48,7 @@ function PocionAll() {
         setSelectedPocion(pocion);
         setShowModalDelete(true);
     };
+
     const handleOpenModalEdit = (pocion) => {
         setSelectedPocion(pocion);
         setShowModalEdit(true);
@@ -66,7 +71,7 @@ function PocionAll() {
         }
 
         fetchPociones();
-    }, []);
+    }, [showModalCreate, showModalDelete, showModalImagen, showModalDetalles, showModalEdit]);
 
     const getImageByValue = (value) => {
         const imageMapping = {
@@ -84,15 +89,44 @@ function PocionAll() {
 
         return imageMapping[value] || null;
     };
+
+    const handleSearchInputChange = (event) => {
+        setSearchValue(event.target.value);
+    };
+
+    const filteredPociones = pociones.filter((pocion) => {
+        const lowerCaseSearchValue = searchValue.toLowerCase();
+        const lowerCaseNombre = pocion.nombre.toLowerCase();
+        const lowerCaseDescripcion = pocion.descripcion.toLowerCase();
+        const lowerCaseCategoria = pocion.categoria.toLowerCase();
+
+        return lowerCaseNombre.includes(lowerCaseSearchValue) || lowerCaseDescripcion.includes(lowerCaseSearchValue) || lowerCaseCategoria.includes(lowerCaseSearchValue);
+    });
+
     return (
-        <div className="flex flex-col items-center justify-center">
-            <h2 className="font-ubuntu text-2xl mt-5 -mb-8">Pociones Disponibles</h2>
-            {pociones.map((pocion) => (
+        <div className="flex flex-col items-center justify-center ">
+            <div className="flex flex-col items-center justify-center border-b-8 border-black mb-8 w-full">
+                <h2 className="text-center font-ubuntu mt-4 mb-4 text-xl">¡Encuentra la pocion que desees!</h2>
+
+                <input
+                    type="text"
+                    placeholder="Ingresa el nombre de la pocion aqui..."
+                    className="p-1 m-1 text-xs border-2 w-3/4 font-ubuntu bg-[#EAEAEA]"
+                    value={searchValue}
+                    onChange={handleSearchInputChange}
+                />
+                <button type="button" onClick={() => setShowModalCreate(true)} className="bg-[#8FA9B5] font-ubuntu text-white p-2 my-6">
+                    Crear nueva pocion
+                </button>
+                <ModalCreate onClose={handleOnClose} visible={showModalCreate} />
+            </div>
+            <h2 className="font-ubuntu text-2xl">Pociones Disponibles</h2>
+            {filteredPociones.map((pocion) => (
                 <div className="flex flex-col m-16 items-center justify-center border-2 border-black bg-[#19323C] font-yusei-magic text-white divide-y-2" key={pocion.id}>
                     <div className="flex flex-col items-center justify-center">
                         <h3 className="my-2">{pocion.nombre}</h3>
                         <img className="h-36" src={getImageByValue(pocion.imagen)} alt={`Imagen ${pocion.imagen}`} onClick={() => handleOpenModalDetalles(pocion)} />
-                        <p className="my-2">Pocion de {pocion.categoria}</p>
+                        <p className="my-2">Poción de {pocion.categoria}</p>
                         <p className="mb-2">{pocion.precio} de oro</p>
                     </div>
                     <div className="flex flex-col items-center justify-center w-full">

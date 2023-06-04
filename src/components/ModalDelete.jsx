@@ -22,25 +22,22 @@ function ModalDelete({ pocion, visible, onClose }) {
 
             if (response.ok) {
                 setIsDeleted(true);
+                onClose();
             } else {
-                console.error("Ocurrió un error al eliminar la pocion");
+                console.error("Ocurrió un error al eliminar la poción");
             }
         } catch (error) {
-            console.error("Error al borrar la pocion", error);
+            console.error("Error al borrar la poción", error);
         } finally {
             setIsDeleting(false);
         }
     };
 
     useEffect(() => {
-        if (isDeleted) {
-            const timer = setTimeout(() => {
-                onClose();
-            }, 1000);
-
-            return () => clearTimeout(timer);
+        if (visible) {
+            setIsDeleted(false);
         }
-    }, [isDeleted, onClose]);
+    }, [visible]);
 
     if (!visible) return null;
 

@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 function ModalCreate({ visible, onClose }) {
     const [formData, setFormData] = useState({
@@ -14,9 +13,11 @@ function ModalCreate({ visible, onClose }) {
         ingrediente4: "",
         descripcion: "",
     });
+
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -32,13 +33,27 @@ function ModalCreate({ visible, onClose }) {
             if (!response.ok) {
                 throw new Error("Error al agregar la poción");
             }
-
-            const data = await response.json();
-            console.log(data); 
+            limpiarCampos();
         } catch (error) {
             console.error(error);
         }
     };
+
+    const limpiarCampos = () => {
+        setFormData({
+            nombre: "",
+            categoria: "",
+            precio: "",
+            imagen: "",
+            unidadesDisponibles: "",
+            ingrediente1: "",
+            ingrediente2: "",
+            ingrediente3: "",
+            ingrediente4: "",
+            descripcion: "",
+        });
+    };
+
     const handleOnClose = (e) => {
         if (e.target.id === "modalContainer") onClose();
     };
@@ -52,11 +67,11 @@ function ModalCreate({ visible, onClose }) {
                 <form onSubmit={handleSubmit}>
                     <div className="flex flex-col font-yusei-magic">
                         <label className=" text-white ml-2" htmlFor="nombre">
-                            Nombre de la pocion
+                            Nombre de la poción
                         </label>
                         <input className="m-2 px-2 py-1" type="text" name="nombre" id="nombre" value={formData.nombre} onChange={handleChange} />
                         <label className=" text-white ml-2" htmlFor="descripcion">
-                            Descripcion
+                            Descripción
                         </label>
                         <textarea className="m-2 p-1" type="text" name="descripcion" id="descripcion" value={formData.descripcion} onChange={handleChange} />
                         <label className=" text-white ml-2" htmlFor="ingrediente1">
@@ -123,6 +138,7 @@ function ModalCreate({ visible, onClose }) {
                             Categoría de la poción
                         </label>
                         <select className="m-2 p-1" type="" name="categoria" id="categoria" value={formData.categoria} onChange={handleChange}>
+                            <option value="">Sin categoría</option>
                             <option value="vida">Poción de vida</option>
                             <option value="maná">Poción de maná</option>
                             <option value="resistencia">Poción de resistencia</option>

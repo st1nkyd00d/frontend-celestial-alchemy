@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Pocion1 from "../assets/Pocion1.jpeg";
 import Pocion2 from "../assets/Pocion2.jpeg";
 import Pocion3 from "../assets/Pocion3.jpeg";
@@ -14,7 +13,9 @@ import Pocion10 from "../assets/Pocion10.jpeg";
 function ModalImagen({ pocionId, visible, onClose }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const handleOnClose = (e) => {
-        if (e.target.id === "modalContainer") onClose();
+        if (e.target.id === "modalContainer") {
+            onClose();
+        }
     };
 
     const handleImageClick = (imageName) => {
@@ -47,7 +48,7 @@ function ModalImagen({ pocionId, visible, onClose }) {
     return (
         <div id="modalContainer" onClick={handleOnClose} className="flex justify-center items-center fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm">
             <div className="bg-[#3E5762] border-2 border-black p-2">
-                <p className="text-white my-8 mx-3 font-ubuntu" >Selecciona una imagen</p>
+                <p className="text-white my-8 mx-3 font-ubuntu">Selecciona una imagen</p>
                 <div className="flex justify-center m-4">
                     <img src={Pocion1} alt="Imagen 1" className={`h-28 mr-10 cursor-pointer ${selectedImage === "1" ? "border-2 border-blue-500" : ""}`} onClick={() => handleImageClick("1")} />
                     <img src={Pocion2} alt="Imagen 2" className={`h-28 cursor-pointer ${selectedImage === "2" ? "border-2 border-blue-500" : ""}`} onClick={() => handleImageClick("2")} />
@@ -78,6 +79,7 @@ function ModalImagen({ pocionId, visible, onClose }) {
                     onClick={() => {
                         handleGuardarClick();
                         onClose();
+                        setSelectedImage(null);
                     }}
                 >
                     Guardar
